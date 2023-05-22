@@ -30,7 +30,7 @@ const server = http.createServer(app);
  */
 
 mongoose
-  .connect(process.env.MONGODB_URL, {useNewUrlParser: true})
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     server.listen(port);
     console.log(`Listening on port ${port}`);
