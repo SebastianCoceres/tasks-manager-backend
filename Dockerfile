@@ -1,9 +1,6 @@
 FROM node:16
 WORKDIR /app
-RUN addgroup app && adduser -S -G app app && chown -R app /app
-USER app
 RUN ls -1
-
 COPY package*.json ./
 RUN node --version
 RUN npm cache clean --force
