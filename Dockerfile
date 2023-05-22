@@ -1,8 +1,10 @@
 FROM node:16
 WORKDIR /app
 COPY package*.json ./
+RUN node --version
+RUN npm update
 RUN npm ci
-COPY . .
+COPY . ./
 EXPOSE 5000
 ARG PORT
 ENV PORT=${PORT}
@@ -19,3 +21,4 @@ ENV EMAIL_USERNAME=${EMAIL_USERNAME}
 ARG EMAIL_PASSWORD
 ENV EMAIL_PASSWORD=${EMAIL_PASSWORD}
 CMD ["npm", "run", "start"]
+
