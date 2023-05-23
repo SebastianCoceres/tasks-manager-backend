@@ -29,15 +29,10 @@ router.post(
     });
   }),
   body("verificationCode").custom((value) => {
-    console.log({
-      verificationKey: value,
-      key: process.env.VERIFICATION_SECRET_KEY,
-      condition: value === process.env.VERIFICATION_SECRET_KEY,
-    });
     if (value !== process.env.VERIFICATION_SECRET_KEY) {
       return Promise.reject("CVU incorrecto");
     } else {
-      return Promise.resolve()
+      return Promise.resolve();
     }
   }),
   validation.validate,
