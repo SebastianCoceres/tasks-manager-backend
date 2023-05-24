@@ -148,6 +148,7 @@ exports.getTasksBetweenDates = async (req, res) => {
 
 exports.generatePDF = async (req, res) => {
   const { tasks, start, end, boardId } = req.body;
+  console.log({ tasks, start, end, boardId })
   const board = await Board.findById(boardId);
 
   try {
