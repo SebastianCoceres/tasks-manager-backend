@@ -21,10 +21,12 @@ router.post(
     .withMessage(
       "La contraseña debe contener al menos un número, una letra mayúscula y un caracter no alfanumérico"
     ),
-  body("username").custom((value) => {
-    return User.findOne({ username: value }).then((user) => {
+  body("username").custom(async (value) => {
+    return await User.findOne({ username: value }).then((user) => {
       if (user) {
         return Promise.reject("Nombre de usuario ya usado");
+      } else {
+        return Promise.resolve();
       }
     });
   }),
@@ -54,5 +56,31 @@ router.post(
 router.post("/verify-token", tokenHandler.verifyToken, (req, res) => {
   res.status(200).json({ user: req.user });
 });
+
+router.put(
+  "/edit-username",
+  body("userId").custom((value) => {
+    if (!validation.isObjectId(value)) {
+      return Promise.reject("invalid id");
+    } else return Promise.resolve();
+  }),
+  body("username")
+    .isLength({ min: 8 })
+    .withMessage("El nombre de usuario debe contener al menos 8 carácteres")
+    .custom(async (value, { req }) => {
+      const user = await User.findOne({ _id: req.body.userId });
+      const existingUser = await User.findOne({ username: value });
+      if (existingUser && existingUser._id.toString() !== user._id.toString()) {
+        return Promise.reject("Ya existe un usuario con este identificador");
+      } else if (value == user.username) {
+        return Promise.reject("Elije un nombre de usuario distinto");
+      } else {
+        return Promise.resolve();
+      }
+    }),
+  validation.validate,
+  tokenHandler.verifyToken,
+  userController.editUserName
+);
 
 module.exports = router;

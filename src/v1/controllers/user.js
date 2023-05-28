@@ -65,3 +65,18 @@ exports.login = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+exports.editUserName = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.body.userId,
+      {
+        $set: { username: req.body.username },
+      },
+      { new: true }
+    );
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

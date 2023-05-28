@@ -64,10 +64,10 @@ exports.update = async (req, res) => {
   const { title, description, favourite } = req.body;
 
   try {
-    if (title === "") req.body.title = "Untitled";
-    if (description === "") req.body.description = "Add a description";
+    if (title === "") req.body.title = "Sin título";
+    if (description === "") req.body.description = "Agregar una descripcion";
     const currentBoard = await Board.findById(boardId);
-    if (!currentBoard) return res.status(404).json("Board not found");
+    if (!currentBoard) return res.status(404).json("Tablero no encontrado");
     if (favourite !== undefined && currentBoard.favourite !== favourite) {
       const favourites = await Board.find({
         user: currentBoard.user,

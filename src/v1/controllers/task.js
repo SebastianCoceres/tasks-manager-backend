@@ -94,7 +94,7 @@ exports.updatePosition = async (req, res) => {
 
 exports.getTasksInCalendar = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user._id, addedToCalendar: true })
+    const tasks = await Task.find({ user: req.user._id, addedToCalendar: true, done: false })
       .sort("date")
       .populate("board", "_id title icon")
       .populate({
